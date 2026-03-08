@@ -11,6 +11,8 @@ class Step {
     this.position = range.container.position
     this.offset = range.offset
     this.editor = range.editor
+    this.lastAppliedPath = null
+    this.lastInvertedPath = null
   }
 
   /**
@@ -20,12 +22,11 @@ class Step {
    */
   apply () {
     const path = this.editor.queryPath(this.position)
-    const res = this.applyAction({
+    this.lastAppliedPath = path
+    return this.applyAction({
       path,
       offset: this.offset,
     })
-    path.currentComponent.update()
-    return res
   }
 
   /**
@@ -34,11 +35,11 @@ class Step {
    */
   invert () {
     const path = this.editor.queryPath(this.position)
+    this.lastInvertedPath = path
     this.invertAction({
       path,
       offset: this.offset,
     })
-    path.currentComponent.update()
   }
 
   /**
@@ -69,16 +70,17 @@ class Step {
  * @extends {Step}
  */
 export class SplitText extends Step {
-  constructor(path, offset) {
-    super(path, offset)
+  constructor(range, offset = range.offset) {
+    super(range)
+    this.offset = offset
   }
   applyAction (ops) {
     const res = ops.path.split(ops.offset)
-    editor.selection.updatePoints(ops.path, ops.offset + 1, -ops.offset, res[1])
+    this.editor.selection.updatePoints(ops.path, ops.offset + 1, -ops.offset, res[1])
     return res
   }
   invertAction (ops) {
-    mergeTextPath([ops.path, ops.path.nextSibling], ops.editor)
+    mergeTextPath([ops.path, ops.path.nextSibling], this.editor)
   }
 }
 
