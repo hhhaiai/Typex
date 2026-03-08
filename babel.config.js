@@ -1,6 +1,4 @@
-const editorJsx = require('babel-plugin-transform-typex-jsx')
-
-module.exports = function createCoreBabelConfig(api) {
+module.exports = function createBabelConfig(api) {
   const isTest = api.env('test')
 
   return {
@@ -17,6 +15,7 @@ module.exports = function createCoreBabelConfig(api) {
         },
       ],
     ],
-    plugins: [editorJsx],
+    plugins: ['babel-plugin-transform-typex-jsx'],
+    ignore: ['node_modules'],
   }
 }

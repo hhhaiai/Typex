@@ -1,13 +1,23 @@
 const { merge } = require('webpack-merge')
 const baseConfig = require('./webpack.config.base')
 
-const prodConfig = merge(baseConfig, {
-  devtool: 'eval-cheap-module-source-map',
-  mode: 'production',
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
+function createBundle(filename, { minimize, clean }) {
+  return merge(baseConfig, {
+    mode: 'production',
+    devtool: false,
+    output: {
+      filename,
+      clean,
     },
-  }
-})
-module.exports = prodConfig
+    optimization: {
+      minimize,
+      splitChunks: false,
+      runtimeChunk: false,
+    },
+  })
+}
+
+module.exports = [
+  createBundle('typex-core.js', { minimize: false, clean: true }),
+  createBundle('typex-core.min.js', { minimize: true, clean: false }),
+]

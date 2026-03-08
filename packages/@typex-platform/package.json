@@ -1,12 +1,27 @@
 {
   "name": "@typex/platform",
-  "version": "1.0.0",
-  "description": "",
+  "version": "2.0.0",
+  "description": "Typex web platform adapter.",
   "main": "index.js",
+  "files": [
+    "dist",
+    "*.js",
+    "web"
+  ],
+  "exports": {
+    ".": "./index.js",
+    "./umd": "./dist/typex-platform.js",
+    "./min": "./dist/typex-platform.min.js"
+  },
+  "unpkg": "dist/typex-platform.min.js",
+  "jsdelivr": "dist/typex-platform.min.js",
   "scripts": {
     "build": "webpack --config config/webpack.config.prod.js"
   },
-  "keywords": [],
+  "keywords": [
+    "typex",
+    "platform"
+  ],
   "author": "",
   "license": "ISC"
 }

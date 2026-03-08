@@ -361,8 +361,9 @@ code
 
 #demo-app
   display grid
-  grid-template-columns minmax(0, 1.08fr) minmax(340px, 0.92fr)
+  grid-template-columns minmax(0, 1.04fr) minmax(380px, 0.96fr)
   gap 20px
+  align-items stretch
 
 .demo-pane
   min-width 0
@@ -373,6 +374,7 @@ code
   padding 20px
   box-sizing border-box
   backdrop-filter blur(16px)
+  min-height 100%
 
 .demo-pane__header
   font-size 18px
@@ -380,13 +382,17 @@ code
   margin-bottom 16px
 
 .demo-pane--editor #editor-root
-  min-height 560px
+  min-height 620px
 
 .demo-pane--side
   display grid
+  grid-template-rows minmax(300px, 0.95fr) minmax(360px, 1.05fr)
   gap 16px
 
 .demo-subpane
+  min-height 0
+  display flex
+  flex-direction column
   padding 2px 0
 
 .demo-subpane--preview
@@ -398,29 +404,56 @@ code
   font-weight 700
   letter-spacing 0.08em
   text-transform uppercase
-  margin 18px 0 8px
+  margin 4px 0 8px
   color var(--muted)
+
+.demo-markdown-shell
+  flex 1
+  min-height 0
+  border 1px solid rgba(20, 33, 61, 0.08)
+  border-radius 18px
+  background rgba(255, 255, 255, 0.98)
+  box-shadow inset 0 1px 0 rgba(255, 255, 255, 0.8)
+  overflow hidden
 
 .demo-markdown-input
   width 100%
-  min-height 200px
-  border 1px solid rgba(20, 33, 61, 0.14)
-  border-radius 16px
-  padding 14px 16px
+  height 100%
+  min-height 280px
+  border 0
+  border-radius 0
+  padding 18px 20px 22px
   box-sizing border-box
-  resize vertical
-  line-height 1.7
-  background rgba(250, 252, 255, 0.96)
-  color var(--ink)
+  resize none
+  line-height 1.72
+  background #fff
+  color #0f172a
+  font-family 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace
+  font-size 15px
+  tab-size 2
+  white-space pre
+  overflow auto
 
 .demo-markdown-input::placeholder
-  color #8a94a6
+  color #94a3b8
+
+.demo-markdown-input:focus
+  box-shadow inset 0 0 0 2px rgba(37, 99, 235, 0.16)
+
+.demo-preview-shell
+  flex 1
+  min-height 0
+  overflow auto
+  border 1px solid rgba(20, 33, 61, 0.08)
+  border-radius 18px
+  background rgba(255, 255, 255, 0.98)
 
 .demo-preview
-  min-height 320px
-  line-height 1.75
+  min-height 100%
+  padding 20px 22px 28px
+  line-height 1.78
   word-break break-word
-  color var(--ink)
+  color #334155
 
 .demo-preview h1, .demo-preview h2, .demo-preview h3
   line-height 1.2
@@ -447,6 +480,9 @@ code
 .demo-preview span[style*='background']
   padding 0 2px
   border-radius 4px
+
+.demo-preview h1, .demo-preview h2, .demo-preview h3, .demo-preview h4
+  color #0f172a
 
 .demo-preview--empty
   color #6b7280
@@ -897,6 +933,8 @@ code
     position static
   #demo-app
     grid-template-columns 1fr
+  .demo-pane--side
+    grid-template-rows auto auto
   .workspace__header
     display block
   .docs-page__header

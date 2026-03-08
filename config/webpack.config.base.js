@@ -1,18 +1,18 @@
-const path = require('path') //调用node.js中的路径
+const path = require('path')
 const WebpackBar = require('webpackbar')
+
 module.exports = {
   entry: {
-    index: './src/index.js', //需要打包的文件
+    index: './src/index.js',
   },
   output: {
-    filename: '[name].js', //输入的文件名是什么，生成的文件名也是什么
-    path: path.resolve(__dirname, '../deploy'), //指定生成的文件目录
+    filename: '[name].js',
+    path: path.resolve(__dirname, '../deploy'),
     clean: true,
   },
   resolve: {
-    // 设置别名
     alias: {
-      '@': path.resolve('src'), // 这样配置后 @ 可以指向 src 目录
+      '@': path.resolve('src'),
     },
   },
   module: {
@@ -30,9 +30,9 @@ module.exports = {
         use: {
           loader: 'babel-loader',
         },
-        exclude: '/node_modules/',
+        exclude: /node_modules/,
       },
     ],
   },
-  plugins: [new WebpackBar()],
+  plugins: [new WebpackBar({ name: 'site' })],
 }

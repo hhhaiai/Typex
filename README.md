@@ -1,7 +1,40 @@
 #### 在线入口
 
+- 当前正式版本：`v2.0`
 - Demo 与集成说明首页：`https://hhhaiai.github.io/Typex/`
 - API 文档：`https://hhhaiai.github.io/Typex/api/`
+- Release 下载：`https://github.com/hhhaiai/Typex/releases/tag/v2.0`
+
+## SDK 使用
+
+Typex 当前正式交付形态为 `JS SDK`，推荐优先使用压缩版 `typex-editor.min.js`。
+
+- npm 包入口：`packages/editor/dist/typex-editor.js`
+- 浏览器压缩版：`packages/editor/dist/typex-editor.min.js`
+- 内核包：`packages/@typex-core/dist/typex-core(.min).js`
+- 平台包：`packages/@typex-platform/dist/typex-platform(.min).js`
+
+### 浏览器直接引用
+
+```html
+<script src="./typex-editor-v2.0.min.js"></script>
+<script>
+  const editor = window.TypexEditor({ data: 'hello world' })
+  editor.setToolBar(['undo', 'redo', 'bold']).mount('editor-root')
+</script>
+```
+
+### 工程内引用
+
+```js
+import createEditor from 'editor'
+
+const editor = createEditor({
+  data: 'hello world',
+})
+
+editor.setToolBar(['undo', 'redo', 'bold']).mount('editor-root')
+```
 
 ## 特点
 - 不依赖contentEditable；不依赖document.execCommand
@@ -12,7 +45,7 @@
 ```js
 packages 包
 ├─editor 编辑器应用 
-|   ├─babel.config.json
+|   ├─babel.config.js
 |   ├─data.js mock 数据
 |   ├─index.js
 |   ├─mount.js

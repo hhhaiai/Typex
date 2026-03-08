@@ -1,20 +1,25 @@
-const path = require('path') //调用node.js中的路径
+const path = require('path')
 const WebpackBar = require('webpackbar')
+
 module.exports = {
   entry: {
-    index: './index.js', //需要打包的文件
+    index: './index.js',
   },
   output: {
-    filename: '[name].js', //输入的文件名是什么，生成的文件名也是什么
-    path: path.resolve(__dirname, '../dist'), //指定生成的文件目录
-    library: 'editor', // 设置输出的库名为 MyLibrary
-    libraryTarget: 'umd', // 设置库的输出格式为 UMD
-    globalObject: 'this', // 解决 UMD 格式中的全局对象问题
+    filename: '[name].js',
+    path: path.resolve(__dirname, '../dist'),
+    clean: true,
+    library: {
+      name: 'TypexEditor',
+      type: 'umd',
+      export: 'default',
+    },
+    globalObject: 'globalThis',
+    umdNamedDefine: true,
   },
   resolve: {
-    // 设置别名
     alias: {
-      '@': path.resolve('src'), // 这样配置后 @ 可以指向 src 目录
+      '@': path.resolve('src'),
     },
   },
   module: {
@@ -32,9 +37,9 @@ module.exports = {
         use: {
           loader: 'babel-loader',
         },
-        exclude: '/node_modules/',
+        exclude: /node_modules/,
       },
     ],
   },
-  plugins: [new WebpackBar()],
+  plugins: [new WebpackBar({ name: 'editor-sdk' })],
 }

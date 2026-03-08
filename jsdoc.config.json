@@ -1,26 +1,34 @@
 {
   "tags": {
     "allowUnknownTags": true,
-    "dictionaries": ["jsdoc", "closure"]
+    "dictionaries": [
+      "jsdoc",
+      "closure"
+    ]
   },
   "sourceType": "module",
   "source": {
-    "include": ["./packages/"],
+    "include": [
+      "./packages/"
+    ],
     "includePattern": ".+\\.js(doc|x)?$",
     "excludePattern": "(^|\\/|\\\\)_",
     "exclude": [
-      "./packages/@typex-core/node_modules/","./packages/@typex-core/dist/",
-      "./packages/@typex-platform/node_modules/","./packages/@typex-platform/dist/",
-      "./packages/editor/node_modules/","./packages/editor/dist/"
+      "./packages/@typex-core/node_modules/",
+      "./packages/@typex-core/dist/",
+      "./packages/@typex-platform/node_modules/",
+      "./packages/@typex-platform/dist/",
+      "./packages/editor/node_modules/",
+      "./packages/editor/dist/"
     ]
   },
   "plugins": [],
   "opts": {
-    "homepageTitle": "Typex",
+    "homepageTitle": "Typex v2.0",
     "template": "node_modules/clean-jsdoc-theme",
     "theme_opts": {
       "default_theme": "light",
-      "title": "<a style='font:bold 30px/30px 黑体;color:#999;text-align:center;text-decoration: none;' href='./index.html'>Typex-Document</a>",
+      "title": "<a style='font:bold 30px/30px 黑体;color:#999;text-align:center;text-decoration: none;' href='./index.html'>Typex v2.0 Document</a>",
       "menu": [
         {
           "title": "Home",
@@ -30,21 +38,16 @@
         },
         {
           "title": "Github",
-          "link": "https://github.com/caiwuu/Typex",
+          "link": "https://github.com/hhhaiai/Typex",
           "target": "_blank",
           "class": "github-class",
           "id": "github-id"
         }
       ],
-
       "meta": [
         {
-          "name": "author",
-          "content": "Cai Wu"
-        },
-        {
           "name": "description",
-          "content": "A Editor Core"
+          "content": "Typex v2.0 SDK documentation"
         }
       ],
       "search": {
@@ -56,11 +59,8 @@
         "minMatchCharLength": 1
       },
       "add_scripts": "function foo(){console.log('foo')}",
-
-      "footer": "<div style='font-size: 16px;color: #ff6c6c;text-align:center'>Typex 欢迎各位对编辑器感兴趣的同学加入 QQ群:616405713</div>",
-
+      "footer": "",
       "exclude_inherited": true,
-
       "overlay_scrollbar": {
         "options": {}
       },

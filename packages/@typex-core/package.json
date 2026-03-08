@@ -1,19 +1,40 @@
 {
   "name": "@typex/core",
-  "version": "1.0.0",
-  "description": "",
+  "version": "2.0.0",
+  "description": "Typex editor core runtime.",
   "main": "index.js",
+  "files": [
+    "dist",
+    "*.js",
+    "view",
+    "transform",
+    "selection",
+    "ot",
+    "model",
+    "history",
+    "defaultActions"
+  ],
+  "exports": {
+    ".": "./index.js",
+    "./umd": "./dist/typex-core.js",
+    "./min": "./dist/typex-core.min.js"
+  },
+  "unpkg": "dist/typex-core.min.js",
+  "jsdelivr": "dist/typex-core.min.js",
   "scripts": {
     "build": "webpack --config config/webpack.config.prod.js"
   },
-  "keywords": [],
+  "keywords": [
+    "typex",
+    "editor-core"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mitt": "^3.0.0"
+    "mitt": "^3.0.1"
   },
   "devDependencies": {
-    "babel-plugin-transform-typex-jsx": "workspace:^",
-    "@babel/plugin-syntax-jsx": "^7.16.7"
+    "@babel/plugin-syntax-jsx": "^7.28.6",
+    "babel-plugin-transform-typex-jsx": "workspace:^"
   }
 }

@@ -14,9 +14,9 @@
     <header class="site-header">
       <a class="site-brand" href="#top">Typex</a>
       <nav class="site-nav" aria-label="Primary">
-        <a class="site-nav__link site-nav__link--active" href="#demo" data-view-target="demo">Demo</a>
-        <a class="site-nav__link" href="#docs" data-view-target="docs" data-docs-target="guide">集成说明</a>
-        <a class="site-nav__link" href="#docs" data-view-target="docs" data-docs-target="api">API 文档</a>
+        <a class="site-nav__link site-nav__link--active" href="#product" data-view-target="product">产品介绍</a>
+        <a class="site-nav__link" href="#demo" data-view-target="demo">在线 Demo</a>
+        <a class="site-nav__link" href="#docs" data-view-target="docs">开发文档</a>
         <a class="site-nav__link" href="https://github.com/hhhaiai/Typex" target="_blank" rel="noreferrer">GitHub</a>
       </nav>
     </header>
@@ -27,10 +27,10 @@
           <div class="hero-copy">
             <p class="site-eyebrow">Product Showcase · Live Demo · Docs Hub</p>
             <div class="hero-badge-row">
-              <span class="hero-badge">面向 GitHub Pages 的产品宣传展示页</span>
-              <span class="hero-badge hero-badge--soft">内核驱动 · 在线可试 · 文档同页承载</span>
+              <span class="hero-badge">Typex v2.0 正式版</span>
+              <span class="hero-badge hero-badge--soft">JS SDK 交付 · 在线可试 · 文档同页承载</span>
             </div>
-            <h1 class="site-title">把富文本编辑能力，做成一页可展示、可试用、可接入的产品官网</h1>
+            <h1 class="site-title">Typex v2.0：一页可展示、可试用、可接入的富文本编辑 SDK 官网</h1>
             <p class="site-subtitle">
               Typex 围绕富文本编辑器内核组织成一页完整产品官网：上层讲清定位、能力与场景，下层承接 Demo、集成说明和 API 文档，让访客在一个页面里完成理解、试用与接入。
             </p>
@@ -43,9 +43,9 @@
               <span class="site-chip">Docs In Page</span>
             </div>
             <div class="hero-actions">
-              <a class="hero-action" href="#product-overview">先看产品亮点</a>
-              <a class="hero-action hero-action--secondary" href="#demo-section">立即体验 Demo</a>
-              <a class="hero-action hero-action--ghost" href="#docs" data-view-target="docs" data-docs-target="guide">查看集成说明</a>
+              <a class="hero-action" href="#product" data-view-target="product">查看产品介绍</a>
+              <a class="hero-action hero-action--secondary" href="#demo" data-view-target="demo">立即体验 Demo</a>
+              <a class="hero-action hero-action--ghost" href="#docs" data-view-target="docs" data-docs-target="guide">查看开发文档</a>
             </div>
           </div>
 
@@ -82,13 +82,15 @@
     </section>
 
     <main class="site-main">
-      <section class="site-view site-view--active" data-view-panel="demo">
+      <section class="site-view site-view--active" data-view-panel="product">
         <section class="anchor-strip" aria-label="Page anchors">
           <a class="anchor-pill" href="#product-overview">产品亮点</a>
           <a class="anchor-pill" href="#advantages">核心优势</a>
           <a class="anchor-pill" href="#capabilities">核心能力</a>
-                    <a class="anchor-pill" href="#scenarios">适用场景</a>
-          <a class="anchor-pill" href="#demo-section">在线 Demo</a>
+          <a class="anchor-pill" href="#scenarios">适用场景</a>
+          <a class="anchor-pill" href="#workflow">接入流程</a>
+          <a class="anchor-pill" href="#ecosystem">生态文档</a>
+          <a class="anchor-pill" href="#demo" data-view-target="demo">在线 Demo</a>
           <a class="anchor-pill" href="#docs" data-view-target="docs" data-docs-target="guide">开发文档</a>
         </section>
 
@@ -210,46 +212,13 @@
               <h3 class="feature-card__title">平台适配层</h3>
               <p class="feature-card__text">为 Web 接入提供桥接能力，也为未来多端延展保留清晰边界。</p>
             </article>
-            <article class="feature-card">
-              <p class="feature-card__tag">06</p>
-              <h3 class="feature-card__title">开发文档</h3>
-              <p class="feature-card__text">集成说明与 API 参考在同页切换，让产品页天然具备开发者承接能力。</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="workspace workspace--demo" id="demo-section">
-          <div class="workspace__header">
-            <div>
-              <p class="workspace__eyebrow">Interactive Demo</p>
-              <h2 class="workspace__title">在线体验区</h2>
+              <article class="feature-card">
+                <p class="feature-card__tag">06</p>
+                <h3 class="feature-card__title">开发文档</h3>
+                <p class="feature-card__text">集成说明与 API 参考在同页切换，让产品页天然具备开发者承接能力。</p>
+              </article>
             </div>
-            <p class="workspace__description workspace__description--wide">
-              Demo 上方继续保留产品介绍，下方改成左右分屏：左侧是富文本编辑，右侧是 Markdown 输入和 Live Preview。集成说明已从 Demo 区取出，独立放到顶部标签中。
-            </p>
-          </div>
-
-          <div id="demo-app">
-            <div class="demo-pane demo-pane--editor">
-              <div class="demo-pane__header">Rich Text Editor</div>
-              <div id="editor-root"></div>
-            </div>
-            <div class="demo-pane demo-pane--side">
-              <section class="demo-subpane">
-                <div class="demo-pane__header">Markdown</div>
-                <label class="demo-pane__label" for="markdown-input">Markdown Input</label>
-                <textarea id="markdown-input" class="demo-markdown-input" placeholder="# Markdown
-
-Type here to update the live preview."></textarea>
-              </section>
-              <section class="demo-subpane demo-subpane--preview">
-                <div class="demo-pane__header">Live Preview</div>
-                <div id="preview-root" class="demo-preview demo-preview--empty"></div>
-              </section>
-            </div>
-          </div>
-        </section>
-
+          </section>
         <section class="marketing-section" id="scenarios">
           <div class="section-heading">
             <div>
@@ -340,16 +309,55 @@ Type here to update the live preview."></textarea>
         <section class="cta-banner">
           <div>
             <p class="workspace__eyebrow">Next Step</p>
-            <h2 class="workspace__title">现在它已经是一页完整的产品官网首页</h2>
+            <h2 class="workspace__title">先看产品，再试 Demo，最后进入开发文档</h2>
             <p class="workspace__description workspace__description--wide">
-当前首页优先解决“展示清楚、转化顺畅、结构完整”。后续如果继续扩展，就在这个稳定结构上增加更多功能模块和内容细节。
+当前首页优先解决“展示清楚、转化顺畅、结构完整”。访客可以沿着产品介绍、在线体验、开发文档这条路径继续深入。
             </p>
           </div>
           <div class="cta-banner__actions">
-            <a class="hero-action" href="#docs" data-view-target="docs" data-docs-target="guide">查看集成说明</a>
-            <a class="hero-action hero-action--secondary" href="https://github.com/hhhaiai/Typex" target="_blank" rel="noreferrer">查看 GitHub 仓库</a>
+            <a class="hero-action" href="#demo" data-view-target="demo">立即体验 Demo</a>
+            <a class="hero-action hero-action--secondary" href="#docs" data-view-target="docs" data-docs-target="guide">查看开发文档</a>
           </div>
         </section>
+      </section>
+
+      <section class="site-view" data-view-panel="demo" hidden>
+        <section class="workspace workspace--demo" id="demo-section">
+          <div class="workspace__header">
+            <div>
+              <p class="workspace__eyebrow">Interactive Demo</p>
+              <h2 class="workspace__title">在线体验区</h2>
+            </div>
+            <p class="workspace__description workspace__description--wide">
+              在线 Demo 独立成一级标签页：左侧是 Rich Text Editor，右侧是 Markdown 输入和 Live Preview，对应当前 v2.0 JS SDK 的体验方式。
+            </p>
+          </div>
+
+          <div id="demo-app">
+            <div class="demo-pane demo-pane--editor">
+              <div class="demo-pane__header">Rich Text Editor</div>
+              <div id="editor-root"></div>
+            </div>
+            <div class="demo-pane demo-pane--side">
+              <section class="demo-subpane">
+                <div class="demo-pane__header">Markdown</div>
+                <label class="demo-pane__label" for="markdown-input">Markdown Input</label>
+                <div class="demo-markdown-shell">
+                  <textarea id="markdown-input" class="demo-markdown-input" placeholder="# Markdown
+
+Type here to update the live preview."></textarea>
+                </div>
+              </section>
+              <section class="demo-subpane demo-subpane--preview">
+                <div class="demo-pane__header">Live Preview</div>
+                <div class="demo-preview-shell">
+                  <div id="preview-root" class="demo-preview demo-preview--empty"></div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </section>
+
       </section>
 
       <section class="site-view" data-view-panel="docs" hidden>
@@ -360,7 +368,7 @@ Type here to update the live preview."></textarea>
               <h2 class="workspace__title">开发文档</h2>
             </div>
             <p class="workspace__description workspace__description--wide">
-              集成说明负责接入文档，API 文档先给介绍再进入完整参考，这样阅读顺序更自然。
+              开发文档统一承载 Typex v2.0 的集成说明和 API 文档，先讲接入路径，再进入完整接口参考。
             </p>
           </div>
 
@@ -471,8 +479,9 @@ editor
         <span>富文本编辑器内核 · 产品宣传展示页 · 在线 Demo · 集成说明 · API 文档</span>
       </div>
       <div class="site-footer__links">
-        <a href="#demo">Demo</a>
-        <a href="#docs" data-view-target="docs" data-docs-target="guide">集成说明</a>
+        <a href="#product" data-view-target="product">产品介绍</a>
+        <a href="#demo" data-view-target="demo">在线 Demo</a>
+          <a href="#docs" data-view-target="docs" data-docs-target="guide">开发文档</a>
         <a href="https://github.com/hhhaiai/Typex" target="_blank" rel="noreferrer">GitHub</a>
       </div>
     </footer>

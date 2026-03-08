@@ -1,12 +1,30 @@
 {
   "name": "editor",
-  "version": "1.0.0",
-  "description": "",
+  "version": "2.0.0",
+  "description": "Typex editor SDK bundle.",
   "main": "index.js",
+  "files": [
+    "dist",
+    "*.js",
+    "formats",
+    "toolBar"
+  ],
+  "exports": {
+    ".": "./index.js",
+    "./sdk": "./dist/typex-editor.js",
+    "./min": "./dist/typex-editor.min.js"
+  },
+  "browser": "dist/typex-editor.js",
+  "unpkg": "dist/typex-editor.min.js",
+  "jsdelivr": "dist/typex-editor.min.js",
   "scripts": {
     "build": "webpack --config config/webpack.config.prod.js"
   },
-  "keywords": [],
+  "keywords": [
+    "typex",
+    "editor",
+    "sdk"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
