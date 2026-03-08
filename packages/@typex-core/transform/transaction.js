@@ -6,6 +6,19 @@ import { SplitText, SetFormats, TextDelete, TextInsert } from './step'
  * @export
  * @class Transaction
  */
+function updateComponentForPath(path) {
+  if (!path?.currentComponent || typeof path.currentComponent.update !== 'function') {
+    return
+  }
+  path.currentComponent.update()
+}
+
+function notifyEditorChange(editor) {
+  if (typeof editor?.notifyDocumentChange === 'function') {
+    editor.notifyDocumentChange()
+  }
+}
+
 export default class Transaction {
 
   /**
@@ -54,7 +67,9 @@ export default class Transaction {
    */
   addAndApplyStep (step) {
     this.steps.push(step)
-    return step.apply(this.editor)
+    const result = step.apply(this.editor)
+    updateComponentForPath(step.lastAppliedPath)
+    return result
   }
 
   /**
@@ -77,6 +92,7 @@ export default class Transaction {
     this.endRanges = this.editor.selection.rangesSnapshot
     this.editor.history.push(this)
     this.commited = true
+    notifyEditorChange(this.editor)
   }
 
   /**
@@ -87,7 +103,9 @@ export default class Transaction {
     for (let index = 0; index < this.steps.length; index++) {
       const step = this.steps[index]
       step.apply(this.editor)
+      updateComponentForPath(step.lastAppliedPath)
     }
+    notifyEditorChange(this.editor)
     setTimeout(() => {
       this.editor.selection.recoverRangesFromSnapshot(this.endRanges)
     })
@@ -101,7 +119,9 @@ export default class Transaction {
     for (let index = this.steps.length; index > 0; index--) {
       const step = this.steps[index - 1]
       step.invert(this.editor)
+      updateComponentForPath(step.lastInvertedPath)
     }
+    notifyEditorChange(this.editor)
     setTimeout(() => {
       this.editor.selection.recoverRangesFromSnapshot(this.startRanges)
     })

@@ -13,6 +13,12 @@ const inputState = {
   compositionCanceled: false
 
 }
+
+export function resetInputState () {
+  inputState.value = ''
+  inputState.isComposing = false
+  inputState.compositionCanceled = false
+}
 /**
  * @description 内核初始化
  * @export
@@ -25,6 +31,7 @@ export default function initCore ({ editor, formats, plugins }) {
   initSelection(editor)
   initIntercept(editor)
   initDispatcher(editor)
+  editor.resetInputState = resetInputState
 }
 
 /**
@@ -106,8 +113,6 @@ function initDispatcher (editor) {
       input(event, ({ data, prevDataLength, type }) => {
         editor.selection.ranges.forEach((range) => {
           if (!range.collapsed) del({ event, range, ts, force: true })
-          console.log(prevDataLength);
-
           if (prevDataLength) times(prevDataLength, del, editor, { event, range, ts, force: true })
           const path = range.container
 
@@ -178,6 +183,9 @@ function initDispatcher (editor) {
   editor.on('blurEvent', () => {
     inputState.compositionCanceled = true
   });
+  editor.on('destroy', () => {
+    resetInputState()
+  })
 }
 
 function titleCase (str) {

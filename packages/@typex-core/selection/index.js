@@ -1,6 +1,15 @@
 import pluginContext from '../pluginContext'
 import Range from './range'
 
+const fallbackNativeSelection = {
+  rangeCount: 0,
+  getRangeAt: () => null,
+  isCollapsed: true,
+  collapse: () => {},
+  removeAllRanges: () => {},
+  addRange: () => {},
+}
+
 /**
  * @description 选区类
  * @export
@@ -8,9 +17,14 @@ import Range from './range'
  */
 export default class Selection {
   ranges = []
-  nativeSelection = pluginContext.platform.nativeSelection
+  syncVersion = 0
+
   constructor(editor) {
     this.editor = editor
+  }
+
+  get nativeSelection () {
+    return pluginContext.platform?.nativeSelection || fallbackNativeSelection
   }
 
   /**
@@ -60,6 +74,10 @@ export default class Selection {
     return points
   }
   get rangesSnapshot () {
+    return this.exportRangesSnapshot()
+  }
+
+  exportRangesSnapshot () {
     return this.ranges.map((range) => range.snapshot)
   }
 
@@ -130,6 +148,7 @@ export default class Selection {
    * @instance
    */
   collapse (parentNode, offset) {
+    this.syncVersion++
     this.nativeSelection.collapse(parentNode, offset)
     this._resetRangesFromNative()
   }
@@ -143,6 +162,9 @@ export default class Selection {
    * @instance
    */
   amendPathOffset (container, offset) {
+    if (!container) {
+      return null
+    }
     const path = this.editor.queryPath(container)
     if (path) {
       if (path.isLeaf && path.dataType !== 'string') {
@@ -166,6 +188,9 @@ export default class Selection {
     const { startContainer, endContainer, startOffset, endOffset } = nativeRange
     const startPathOffset = this.amendPathOffset(startContainer, startOffset)
     const endPathOffset = this.amendPathOffset(endContainer, endOffset)
+    if (!startPathOffset || !endPathOffset) {
+      return null
+    }
     nativeRange.setStart(startPathOffset.path.elm, startPathOffset.offset)
     nativeRange.setEnd(endPathOffset.path.elm, endPathOffset.offset)
     return nativeRange
@@ -231,6 +256,7 @@ export default class Selection {
    * @instance
    */
   removeAllRanges () {
+    this.syncVersion++
     this.nativeSelection.removeAllRanges()
     this.clearRanges()
   }
@@ -274,8 +300,10 @@ export default class Selection {
    * @instance
    */
   updateRangesFromNative (multiple) {
+    const syncVersion = ++this.syncVersion
     // 选区的创建结果需要在宏任务中获取.
     setTimeout(() => {
+      if (syncVersion !== this.syncVersion) return
       if (multiple) {
         // 不清除ranges，从nativeSelection增加ranges
         this._extendRangesFromNative()
@@ -438,17 +466,34 @@ export default class Selection {
     }
   }
 
-  recoverRangesFromSnapshot (rangesSnapshot) {
+  createRangesFromSnapshot (rangesSnapshot = []) {
+    return rangesSnapshot.reduce((ranges, jsonRange) => {
+      const startContainer = this.editor.queryPath(jsonRange.startContainer)
+      const endContainer = this.editor.queryPath(jsonRange.endContainer)
+      if (!startContainer || !endContainer) {
+        return ranges
+      }
+      ranges.push(
+        this.createRange({
+          startContainer,
+          endContainer,
+          startOffset: jsonRange.startOffset,
+          endOffset: jsonRange.endOffset,
+          d: jsonRange.d,
+        })
+      )
+      return ranges
+    }, [])
+  }
+
+  replaceRangesFromSnapshot (rangesSnapshot = []) {
     this.removeAllRanges()
-    this.ranges = rangesSnapshot.map((jsonRange) =>
-      this.createRange({
-        startContainer: this.editor.queryPath(jsonRange.startContainer),
-        endContainer: this.editor.queryPath(jsonRange.endContainer),
-        startOffset: jsonRange.startOffset,
-        endOffset: jsonRange.endOffset,
-        d: jsonRange.d,
-      })
-    )
+    this.ranges = this.createRangesFromSnapshot(rangesSnapshot)
+    return this.ranges
+  }
+
+  recoverRangesFromSnapshot (rangesSnapshot) {
+    this.replaceRangesFromSnapshot(rangesSnapshot)
     this.updateCaret()
   }
 }

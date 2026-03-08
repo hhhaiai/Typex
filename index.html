@@ -21,7 +21,18 @@
 </head>
 
 <body>
-  <div id="editor-root"></div>
+  <div id="demo-app">
+    <div class="demo-pane demo-pane--editor">
+      <div class="demo-pane__header">Rich Text Editor</div>
+      <div id="editor-root"></div>
+      <label class="demo-pane__label" for="markdown-input">Markdown Input</label>
+      <textarea id="markdown-input" class="demo-markdown-input" placeholder="# Markdown\n\nType here to update the live preview."></textarea>
+    </div>
+    <div class="demo-pane demo-pane--preview">
+      <div class="demo-pane__header">Live Preview</div>
+      <div id="preview-root" class="demo-preview demo-preview--empty"></div>
+    </div>
+  </div>
 </body>
 
 </html>

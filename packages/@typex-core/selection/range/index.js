@@ -7,6 +7,14 @@
  */
 import pluginContext from '../../pluginContext'
 
+class FallbackCaret {
+  rect = { x: 0, y: 0, height: 0 }
+
+  remove () {}
+  update () {}
+  hidden () {}
+}
+
 /**
  * @description 选区范围类
  * @class Range
@@ -31,7 +39,8 @@ export default class Range {
     this.startOffset = startOffset
     this.editor = editor
     this.d = d
-    this.caret = new pluginContext.platform.Caret(this)
+    const Caret = pluginContext.platform?.Caret || FallbackCaret
+    this.caret = new Caret(this)
   }
 
   /**

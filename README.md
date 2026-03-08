@@ -108,6 +108,14 @@ packages 包
 |      |       └delete.js
 ```
 
+## 文档
+
+- 架构目标：`docs/architecture/target-architecture.md`
+- ADR：`docs/adr/`
+- 质量验收：`docs/quality/acceptance.md`
+- 使用方式与调用流程：`docs/guides/usage-and-call-flow.md`
+- 路线图：`docs/guides/roadmap.md`
+
 ## TODO
 
 - 协同编辑
