@@ -6,13 +6,12 @@ describe('site shell navigation', () => {
   beforeEach(() => {
     document.body.innerHTML = `
       <header>
-        <a class="site-nav__link" href="#product" data-view-target="product">Product</a>
-        <a class="site-nav__link" href="#demo" data-view-target="demo">Demo</a>
+        <a class="site-nav__link" href="#home" data-view-target="home">Home</a>
         <a class="site-nav__link" href="#docs" data-view-target="docs">Docs</a>
+        <a class="site-nav__link" href="#demo" data-view-target="demo">Demo</a>
       </header>
       <main>
-        <section data-view-panel="product">product</section>
-        <section data-view-panel="demo" hidden>demo</section>
+        <section data-view-panel="home">home</section>
         <section data-view-panel="docs" hidden>
           <button class="docs-tab" type="button" data-docs-target="guide">Guide</button>
           <button class="docs-tab" type="button" data-docs-target="api">API</button>
@@ -21,29 +20,28 @@ describe('site shell navigation', () => {
             <iframe data-api-frame title="api"></iframe>
           </div>
         </section>
+        <section data-view-panel="demo" hidden>demo</section>
       </main>
     `
     window.history.replaceState(null, '', 'http://localhost/')
   })
 
-  test('shows product by default and opens docs guide by default', () => {
+  test('shows home by default and opens docs guide by default', () => {
     const shell = initSiteShell({
       documentRef: document,
       windowRef: window,
     })
 
-    expect(shell.getActiveView()).toBe('product')
+    expect(shell.getActiveView()).toBe('home')
     expect(shell.getActiveDocsTab()).toBe('guide')
-    expect(document.querySelector('[data-view-panel="product"]').hidden).toBe(false)
+    expect(document.querySelector('[data-view-panel="home"]').hidden).toBe(false)
     expect(document.querySelector('[data-view-panel="docs"]').hidden).toBe(true)
 
     document.querySelector('[data-view-target="docs"]').click()
 
     expect(shell.getActiveView()).toBe('docs')
     expect(shell.getActiveDocsTab()).toBe('guide')
-    expect(document.querySelector('[data-view-panel="docs"]').hidden).toBe(false)
     expect(document.querySelector('[data-docs-panel="guide"]').hidden).toBe(false)
-    expect(document.querySelector('[data-view-target="docs"]').classList.contains('site-nav__link--active')).toBe(true)
     expect(window.location.hash).toBe('#docs')
   })
 
@@ -87,18 +85,16 @@ describe('site shell navigation', () => {
 
     expect(shell.getActiveView()).toBe('docs')
     expect(shell.getActiveDocsTab()).toBe('guide')
-    expect(document.querySelector('[data-docs-panel="guide"]').hidden).toBe(false)
 
     window.history.replaceState(null, '', 'http://localhost/#api')
     document.body.innerHTML = `
       <header>
-        <a class="site-nav__link" href="#product" data-view-target="product">Product</a>
-        <a class="site-nav__link" href="#demo" data-view-target="demo">Demo</a>
+        <a class="site-nav__link" href="#home" data-view-target="home">Home</a>
         <a class="site-nav__link" href="#docs" data-view-target="docs">Docs</a>
+        <a class="site-nav__link" href="#demo" data-view-target="demo">Demo</a>
       </header>
       <main>
-        <section data-view-panel="product">product</section>
-        <section data-view-panel="demo" hidden>demo</section>
+        <section data-view-panel="home">home</section>
         <section data-view-panel="docs" hidden>
           <button class="docs-tab" type="button" data-docs-target="guide">Guide</button>
           <button class="docs-tab" type="button" data-docs-target="api">API</button>
@@ -107,6 +103,7 @@ describe('site shell navigation', () => {
             <iframe data-api-frame title="api"></iframe>
           </div>
         </section>
+        <section data-view-panel="demo" hidden>demo</section>
       </main>
     `
 

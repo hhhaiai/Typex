@@ -1,6 +1,6 @@
-const DEFAULT_VIEW = 'product'
+const DEFAULT_VIEW = 'home'
 const DEFAULT_DOCS_TAB = 'guide'
-const VIEW_NAMES = new Set(['product', 'demo', 'docs'])
+const VIEW_NAMES = new Set(['home', 'docs', 'demo'])
 const DOCS_TAB_NAMES = new Set(['guide', 'api'])
 
 function normalizeDocsTab(candidate) {
@@ -86,8 +86,8 @@ export function initSiteShell({
       const matchesDocsTarget = activeView !== 'docs' || !link.dataset.docsTarget || link.dataset.docsTarget === nextDocsTab
       const isActiveLink = matchesView && matchesDocsTarget
 
-      if (link.classList.contains('site-nav__link')) {
-        link.classList.toggle('site-nav__link--active', matchesView)
+      if (link.classList.contains('site-nav__link') || link.classList.contains('anchor-pill') || link.closest('.site-footer__links')) {
+        link.classList.toggle('site-nav__link--active', link.classList.contains('site-nav__link') && matchesView)
       }
 
       link.setAttribute('aria-current', isActiveLink ? 'page' : 'false')

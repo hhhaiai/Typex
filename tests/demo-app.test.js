@@ -20,18 +20,25 @@ describe('demo app', () => {
     return editor
   }
 
-  test('mounts the editor on the left and renders the initial preview on the right', () => {
+  function createDemoDOM() {
     document.body.innerHTML = `
-      <div id="demo-app">
-        <div class="demo-pane demo-pane--editor">
-          <div id="editor-root"></div>
-          <textarea id="markdown-input"></textarea>
-        </div>
-        <div class="demo-pane demo-pane--preview">
-          <div id="preview-root"></div>
-        </div>
+      <div class="demo-tabs">
+        <button class="demo-tab demo-tab--active" data-demo-target="editor">Editor</button>
+        <button class="demo-tab" data-demo-target="markdown">Markdown</button>
       </div>
+      <section class="demo-subview demo-subview--active" data-demo-panel="editor">
+        <div id="editor-root"></div>
+        <div id="preview-root-editor"></div>
+      </section>
+      <section class="demo-subview" data-demo-panel="markdown" hidden>
+        <textarea id="markdown-input"></textarea>
+        <div id="preview-root-markdown"></div>
+      </section>
     `
+  }
+
+  test('mounts the editor and renders the initial rich text preview', () => {
+    createDemoDOM()
 
     const editor = createEditorMock({
       data: [
@@ -60,21 +67,12 @@ describe('demo app', () => {
 
     expect(editor.setToolBar).toHaveBeenCalled()
     expect(editor.mount).toHaveBeenCalledWith('editor-root')
-    expect(document.getElementById('preview-root').innerHTML).toContain('hello world')
+    expect(document.getElementById('preview-root-editor').innerHTML).toContain('hello world')
+    expect(document.getElementById('preview-root-markdown').innerHTML).toContain('Markdown Demo')
   })
 
-  test('updates preview when the editor emits a change event', () => {
-    document.body.innerHTML = `
-      <div id="demo-app">
-        <div class="demo-pane demo-pane--editor">
-          <div id="editor-root"></div>
-          <textarea id="markdown-input"></textarea>
-        </div>
-        <div class="demo-pane demo-pane--preview">
-          <div id="preview-root"></div>
-        </div>
-      </div>
-    `
+  test('updates rich text preview when the editor emits a change event', () => {
+    createDemoDOM()
 
     const editor = createEditorMock({
       data: [
@@ -103,22 +101,12 @@ describe('demo app', () => {
 
     editor.emitChange('# Updated\n\n**preview**')
 
-    expect(document.getElementById('preview-root').innerHTML).toContain('<h1>Updated</h1>')
-    expect(document.getElementById('preview-root').innerHTML).toContain('<strong>preview</strong>')
+    expect(document.getElementById('preview-root-editor').innerHTML).toContain('<h1>Updated</h1>')
+    expect(document.getElementById('preview-root-editor').innerHTML).toContain('<strong>preview</strong>')
   })
 
-  test('updates preview when markdown textarea input changes', () => {
-    document.body.innerHTML = `
-      <div id="demo-app">
-        <div class="demo-pane demo-pane--editor">
-          <div id="editor-root"></div>
-          <textarea id="markdown-input"></textarea>
-        </div>
-        <div class="demo-pane demo-pane--preview">
-          <div id="preview-root"></div>
-        </div>
-      </div>
-    `
+  test('updates markdown preview when markdown textarea input changes', () => {
+    createDemoDOM()
 
     const editor = createEditorMock({
       data: [
@@ -149,7 +137,42 @@ describe('demo app', () => {
     markdownInput.value = '# Markdown\n\nHello **Typex**'
     markdownInput.dispatchEvent(new window.Event('input', { bubbles: true }))
 
-    expect(document.getElementById('preview-root').innerHTML).toContain('<h1>Markdown</h1>')
-    expect(document.getElementById('preview-root').innerHTML).toContain('<strong>Typex</strong>')
+    expect(document.getElementById('preview-root-markdown').innerHTML).toContain('<h1>Markdown</h1>')
+    expect(document.getElementById('preview-root-markdown').innerHTML).toContain('<strong>Typex</strong>')
+  })
+
+  test('switches demo subviews when demo tab changes', () => {
+    createDemoDOM()
+
+    const editor = createEditorMock({
+      data: [
+        {
+          data: [
+            {
+              data: 'editor content',
+              formats: {},
+            },
+          ],
+          formats: {
+            paragraph: true,
+          },
+        },
+      ],
+      formats: {
+        root: true,
+      },
+    })
+
+    const app = createDemoApp({
+      createEditorImpl: jest.fn(() => editor),
+      documentRef: document,
+      windowRef: window,
+    })
+
+    document.querySelector('[data-demo-target="markdown"]').click()
+
+    expect(app.demoTabs.getActiveTab()).toBe('markdown')
+    expect(document.querySelector('[data-demo-panel="markdown"]').hidden).toBe(false)
+    expect(document.querySelector('[data-demo-panel="editor"]').hidden).toBe(true)
   })
 })
