@@ -447,6 +447,7 @@ export default class Content extends Component {
       callback(path)
     }
     commonPath.currentComponent.update().then(() => {
+      this.$editor.notifyDocumentChange?.()
       range.updateCaret()
       this.$editor.selection.drawRangeBg()
     })
@@ -477,6 +478,7 @@ export default class Content extends Component {
     }
     console.log(commonPath.currentComponent);
     commonPath.currentComponent.update().then(() => {
+      this.$editor.notifyDocumentChange?.()
       range.updateCaret()
       this.$editor.selection.drawRangeBg()
     })

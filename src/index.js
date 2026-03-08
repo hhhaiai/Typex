@@ -8,8 +8,10 @@
 import createEditor from 'editor'
 import './style.styl'
 import { createDemoApp } from './demo/app'
+import { initSiteShell } from './siteShell'
 
 setTimeout(() => {
+  initSiteShell()
   createDemoApp({
     createEditorImpl: createEditor,
   })

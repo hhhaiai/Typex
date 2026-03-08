@@ -120,6 +120,14 @@ code
   max-width 1400px
   margin 0 auto
   padding 0 28px 36px
+
+.site-view
+  display none
+
+.site-view--active
+  display block
+
+.site-view__layout
   display grid
   grid-template-columns minmax(0, 1.7fr) minmax(320px, 420px)
   gap 24px
@@ -256,6 +264,36 @@ code
   line-height 1.8
   color var(--muted)
 
+.docs-card__actions
+  display flex
+  gap 10px
+  flex-wrap wrap
+  margin-top 18px
+
+.docs-action
+  display inline-flex
+  align-items center
+  justify-content center
+  min-height 40px
+  padding 0 16px
+  border-radius 999px
+  background linear-gradient(135deg, var(--hero-start), var(--hero-end))
+  color #fff
+  text-decoration none
+  border 1px solid transparent
+  transition transform 0.2s ease, opacity 0.2s ease
+
+.docs-action:hover
+  transform translateY(-1px)
+
+.docs-action--secondary
+  background rgba(255, 255, 255, 0.92)
+  color var(--accent)
+  border-color rgba(15, 118, 110, 0.16)
+
+.docs-action--active
+  box-shadow 0 10px 22px rgba(15, 118, 110, 0.18)
+
 .docs-code
   margin 0
   overflow auto
@@ -278,6 +316,36 @@ code
 
 .docs-links a:hover
   text-decoration underline
+
+.docs-page, .api-page
+  display grid
+  gap 20px
+
+.docs-page__header
+  display flex
+  justify-content space-between
+  align-items end
+  gap 16px
+
+.docs-page__grid
+  display grid
+  grid-template-columns repeat(2, minmax(0, 1fr))
+  gap 18px
+
+.api-page__frame-shell
+  min-height 920px
+  background rgba(255, 255, 255, 0.92)
+  border 1px solid rgba(20, 33, 61, 0.08)
+  border-radius 22px
+  box-shadow 0 18px 40px rgba(15, 23, 42, 0.08)
+  padding 14px
+
+.api-page__frame
+  width 100%
+  min-height 890px
+  border 0
+  border-radius 16px
+  background #fff
 
 #editor-content:focus, .custom-input:focus, .demo-markdown-input:focus
   outline none
@@ -339,7 +407,7 @@ code
     vertical-align middle
 
 @media (max-width: 1200px)
-  .site-main
+  .site-view__layout
     grid-template-columns 1fr
   .docs-panel
     position static
@@ -347,9 +415,13 @@ code
     grid-template-columns 1fr
   .workspace__header
     display block
+  .docs-page__header
+    display block
   .workspace__description
     max-width none
     margin-top 10px
+  .docs-page__grid
+    grid-template-columns 1fr
 
 @media (max-width: 760px)
   .site-header
@@ -368,3 +440,5 @@ code
     font-size 40px
   .demo-pane
     padding 16px
+  .api-page__frame-shell
+    padding 10px

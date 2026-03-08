@@ -75,6 +75,7 @@ class ToolBarItem extends Component {
         class='editor-tool-bar-item'
         ref={this.barItemRef}
         style={`color: ${this.getStyleColor()}`}
+        onMousedown={this.mouseDownHandle}
       >
         <svg onClick={this.clickHandle} class='icon' aria-hidden ns='http://www.w3.org/2000/svg'>
           <use xlink:href={this.props.icon}></use>
@@ -111,6 +112,11 @@ class ToolBarItem extends Component {
   }
   emitComand = (val) => {
     this.props.editor.command(this.props.name, val)
+    this.props.editor.focus()
+  }
+
+  mouseDownHandle = (event) => {
+    event.preventDefault()
   }
 
   clickHandle = () => {
