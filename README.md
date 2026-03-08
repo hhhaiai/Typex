@@ -1,7 +1,7 @@
-#### [演示/API文档地址👉[https://caiwuu.github.io/Typex/]](https://caiwuu.github.io/Typex/)
-<br>
+#### 在线入口
 
-<div id="editor-root"></div>
+- Demo 与集成说明首页：`https://hhhaiai.github.io/Typex/`
+- API 文档：`https://hhhaiai.github.io/Typex/api/`
 
 ## 特点
 - 不依赖contentEditable；不依赖document.execCommand
@@ -123,4 +123,3 @@ packages 包
 - 复制粘贴
 - API 优化
 
-<script defer="defer" src="./dist/index.js"></script>

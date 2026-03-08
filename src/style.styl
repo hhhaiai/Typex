@@ -1,51 +1,219 @@
+:root
+  --page-bg #edf2ea
+  --panel-bg rgba(255, 255, 255, 0.86)
+  --panel-border rgba(15, 23, 42, 0.08)
+  --ink #14213d
+  --muted #556277
+  --accent #0f766e
+  --accent-soft #d8f1ec
+  --hero-start #15304f
+  --hero-end #27665c
+
+html
+  scroll-behavior smooth
+
 body
   margin 0
-  font-family -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif
-  background #f5f7fb
-  color #1f2937
+  font-family 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif
+  background radial-gradient(circle at top, #f7fbf6 0%, var(--page-bg) 48%, #e6ece6 100%)
+  color var(--ink)
+
+a
+  color inherit
+
+code
+  font-family 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace
+
+#site-shell
+  min-height 100vh
+
+.site-header
+  position sticky
+  top 0
+  z-index 40
+  display flex
+  align-items center
+  justify-content space-between
+  gap 20px
+  padding 18px 28px
+  backdrop-filter blur(18px)
+  background rgba(237, 242, 234, 0.82)
+  border-bottom 1px solid rgba(20, 33, 61, 0.08)
+
+.site-brand
+  font-size 26px
+  font-weight 700
+  letter-spacing 0.04em
+  text-decoration none
+
+.site-nav
+  display flex
+  align-items center
+  gap 10px
+  flex-wrap wrap
+
+.site-nav__link
+  padding 10px 16px
+  border-radius 999px
+  text-decoration none
+  color var(--muted)
+  border 1px solid transparent
+  transition background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease
+
+.site-nav__link:hover
+  color var(--ink)
+  background rgba(255, 255, 255, 0.7)
+  border-color rgba(20, 33, 61, 0.08)
+
+.site-nav__link--active
+  color #fff
+  background linear-gradient(135deg, var(--hero-start), var(--hero-end))
+  border-color transparent
+
+.site-hero
+  padding 36px 28px 20px
+
+.site-hero__content
+  max-width 1400px
+  margin 0 auto
+  padding 28px
+  border-radius 24px
+  color #f8fafc
+  background linear-gradient(135deg, var(--hero-start) 0%, #1f4962 48%, var(--hero-end) 100%)
+  box-shadow 0 24px 48px rgba(15, 23, 42, 0.18)
+
+.site-eyebrow
+  margin 0 0 12px
+  font-size 12px
+  font-weight 700
+  letter-spacing 0.16em
+  text-transform uppercase
+  color rgba(255, 255, 255, 0.72)
+
+.site-title
+  margin 0
+  font-size clamp(40px, 5vw, 72px)
+  line-height 0.95
+
+.site-subtitle
+  max-width 720px
+  margin 16px 0 0
+  font-size 18px
+  line-height 1.7
+  color rgba(255, 255, 255, 0.84)
+
+.site-chips
+  display flex
+  gap 12px
+  flex-wrap wrap
+  margin-top 22px
+
+.site-chip
+  padding 9px 14px
+  border-radius 999px
+  background rgba(255, 255, 255, 0.12)
+  border 1px solid rgba(255, 255, 255, 0.16)
+  font-size 13px
+  color #f8fafc
+
+.site-main
+  max-width 1400px
+  margin 0 auto
+  padding 0 28px 36px
+  display grid
+  grid-template-columns minmax(0, 1.7fr) minmax(320px, 420px)
+  gap 24px
+  align-items start
+
+.workspace
+  min-width 0
+
+.workspace__header
+  display flex
+  justify-content space-between
+  align-items end
+  gap 16px
+  margin-bottom 18px
+
+.workspace__eyebrow
+  margin 0 0 8px
+  font-size 12px
+  font-weight 700
+  letter-spacing 0.14em
+  text-transform uppercase
+  color var(--accent)
+
+.workspace__title
+  margin 0
+  font-size 32px
+  line-height 1.1
+
+.workspace__description
+  max-width 360px
+  margin 0
+  color var(--muted)
+  line-height 1.7
 
 #demo-app
   display grid
-  grid-template-columns minmax(0, 1fr) minmax(320px, 420px)
-  gap 24px
-  padding 24px
-  min-height 100vh
-  box-sizing border-box
+  grid-template-columns minmax(0, 1.1fr) minmax(320px, 0.9fr)
+  gap 20px
 
 .demo-pane
-  background #ffffff
-  border 1px solid #dbe3f0
-  border-radius 12px
-  box-shadow 0 12px 32px rgba(15, 23, 42, 0.08)
+  min-width 0
+  background var(--panel-bg)
+  border 1px solid var(--panel-border)
+  border-radius 22px
+  box-shadow 0 18px 40px rgba(15, 23, 42, 0.08)
   padding 20px
   box-sizing border-box
+  backdrop-filter blur(16px)
 
 .demo-pane__header
   font-size 18px
-  font-weight 600
+  font-weight 700
   margin-bottom 16px
 
 .demo-pane__label
   display block
-  font-size 14px
-  font-weight 600
-  margin 20px 0 8px
+  font-size 13px
+  font-weight 700
+  letter-spacing 0.08em
+  text-transform uppercase
+  margin 18px 0 8px
+  color var(--muted)
 
 .demo-markdown-input
   width 100%
   min-height 180px
-  border 1px solid #c7d2e3
-  border-radius 8px
-  padding 12px
+  border 1px solid rgba(20, 33, 61, 0.14)
+  border-radius 16px
+  padding 14px 16px
   box-sizing border-box
   resize vertical
   font inherit
-  line-height 1.6
+  line-height 1.7
+  background rgba(250, 252, 255, 0.96)
+  color var(--ink)
+
+.demo-markdown-input::placeholder
+  color #8a94a6
 
 .demo-preview
-  min-height 240px
-  line-height 1.7
+  min-height 560px
+  line-height 1.75
   word-break break-word
+  color var(--ink)
+
+.demo-preview h1, .demo-preview h2, .demo-preview h3
+  line-height 1.2
+  margin 0 0 14px
+
+.demo-preview p
+  margin 0 0 16px
+
+.demo-preview strong
+  color var(--accent)
 
 .demo-preview--empty
   color #6b7280
@@ -53,16 +221,76 @@ body
 .demo-preview__empty
   padding 32px 0
 
+.docs-panel
+  position sticky
+  top 92px
+  display grid
+  gap 14px
+
+.docs-card
+  background rgba(255, 255, 255, 0.9)
+  border 1px solid rgba(20, 33, 61, 0.08)
+  border-radius 20px
+  padding 20px
+  box-shadow 0 18px 40px rgba(15, 23, 42, 0.06)
+
+.docs-card__eyebrow
+  margin 0 0 8px
+  font-size 12px
+  font-weight 700
+  letter-spacing 0.14em
+  text-transform uppercase
+  color var(--accent)
+
+.docs-card__title
+  margin 0
+  font-size 28px
+  line-height 1.1
+
+.docs-card__subtitle
+  margin 0 0 12px
+  font-size 18px
+
+.docs-card__text
+  margin 12px 0 0
+  line-height 1.8
+  color var(--muted)
+
+.docs-code
+  margin 0
+  overflow auto
+  padding 14px 16px
+  border-radius 16px
+  background #0f172a
+  color #e5eef8
+  font-size 13px
+  line-height 1.7
+
+.docs-list, .docs-links
+  margin 0
+  padding-left 18px
+  line-height 1.9
+  color var(--muted)
+
+.docs-links a
+  color var(--accent)
+  text-decoration none
+
+.docs-links a:hover
+  text-decoration underline
+
 #editor-content:focus, .custom-input:focus, .demo-markdown-input:focus
   outline none
 
 #editor-root
-  min-height 320px
+  min-height 360px
 
 #editor-content
-  box-shadow #ccc 0px 20px 20px 2px
+  border-radius 18px
+  border 1px solid rgba(20, 33, 61, 0.08)
+  box-shadow 0 18px 34px rgba(15, 23, 42, 0.08)
   word-break break-all
-  padding 15px
+  padding 16px
   background #fff
   .custom-input-iframe
     top -100px
@@ -109,3 +337,34 @@ body
     padding 0
     text-align left
     vertical-align middle
+
+@media (max-width: 1200px)
+  .site-main
+    grid-template-columns 1fr
+  .docs-panel
+    position static
+  #demo-app
+    grid-template-columns 1fr
+  .workspace__header
+    display block
+  .workspace__description
+    max-width none
+    margin-top 10px
+
+@media (max-width: 760px)
+  .site-header
+    padding 16px 18px
+    display block
+  .site-brand
+    display inline-block
+    margin-bottom 12px
+  .site-hero
+    padding 20px 18px 14px
+  .site-hero__content
+    padding 22px
+  .site-main
+    padding 0 18px 24px
+  .site-title
+    font-size 40px
+  .demo-pane
+    padding 16px
