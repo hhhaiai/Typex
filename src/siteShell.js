@@ -1,17 +1,31 @@
 const DEFAULT_VIEW = 'demo'
-const VIEW_NAMES = new Set(['demo', 'guide', 'api'])
+const DEFAULT_DOCS_TAB = 'api'
+const VIEW_NAMES = new Set(['demo', 'docs'])
+const DOCS_TAB_NAMES = new Set(['guide', 'api'])
 
-function normalizeView(candidate) {
+function normalizeDocsTab(candidate) {
   if (!candidate) {
-    return DEFAULT_VIEW
+    return DEFAULT_DOCS_TAB
   }
 
   const normalized = candidate.replace(/^#/, '')
-  return VIEW_NAMES.has(normalized) ? normalized : DEFAULT_VIEW
+  return DOCS_TAB_NAMES.has(normalized) ? normalized : DEFAULT_DOCS_TAB
 }
 
-function getHashView(windowRef) {
-  return normalizeView(windowRef.location.hash)
+function resolveLocationState(windowRef) {
+  const hashValue = (windowRef.location.hash || '').replace(/^#/, '')
+
+  if (DOCS_TAB_NAMES.has(hashValue)) {
+    return {
+      view: 'docs',
+      docsTab: hashValue,
+    }
+  }
+
+  return {
+    view: VIEW_NAMES.has(hashValue) ? hashValue : DEFAULT_VIEW,
+    docsTab: DEFAULT_DOCS_TAB,
+  }
 }
 
 export function initSiteShell({
@@ -20,37 +34,66 @@ export function initSiteShell({
 } = {}) {
   const navLinks = [...documentRef.querySelectorAll('[data-view-target]')]
   const panels = [...documentRef.querySelectorAll('[data-view-panel]')]
+  const docsTabs = [...documentRef.querySelectorAll('.docs-tab[data-docs-target]')]
+  const docsPanels = [...documentRef.querySelectorAll('[data-docs-panel]')]
   const apiFrame = documentRef.querySelector('[data-api-frame]')
 
   if (navLinks.length === 0 || panels.length === 0) {
     return {
       setActiveView: () => DEFAULT_VIEW,
       getActiveView: () => DEFAULT_VIEW,
+      getActiveDocsTab: () => DEFAULT_DOCS_TAB,
     }
   }
 
-  let activeView = getHashView(windowRef)
+  let { view: activeView, docsTab: activeDocsTab } = resolveLocationState(windowRef)
 
-  function syncApiFrame(viewName) {
-    if (!apiFrame || viewName !== 'api' || apiFrame.getAttribute('src')) {
+  function syncApiFrame(viewName, docsTabName) {
+    if (!apiFrame || viewName !== 'docs' || docsTabName !== 'api' || apiFrame.getAttribute('src')) {
       return
     }
 
     apiFrame.setAttribute('src', 'api/index.html')
   }
 
-  function render(viewName, { syncHash = true } = {}) {
-    activeView = normalizeView(viewName)
+  function renderDocsTab(docsTabName) {
+    activeDocsTab = normalizeDocsTab(docsTabName)
+
+    docsTabs.forEach((tab) => {
+      const isActive = tab.dataset.docsTarget === activeDocsTab
+      tab.classList.toggle('docs-tab--active', isActive)
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false')
+      tab.setAttribute('tabindex', isActive ? '0' : '-1')
+    })
+
+    docsPanels.forEach((panel) => {
+      const isActive = panel.dataset.docsPanel === activeDocsTab
+      panel.classList.toggle('docs-subview--active', isActive)
+      panel.hidden = !isActive
+    })
+
+    syncApiFrame(activeView, activeDocsTab)
+
+    return activeDocsTab
+  }
+
+  function render(viewName, { syncHash = true, docsTab = activeDocsTab } = {}) {
+    const nextDocsTab = normalizeDocsTab(docsTab)
+    activeView = VIEW_NAMES.has(viewName) ? viewName : DEFAULT_VIEW
 
     navLinks.forEach((link) => {
-      const isActive = link.dataset.viewTarget === activeView
+      const matchesView = link.dataset.viewTarget === activeView
+      const matchesDocsTarget = activeView !== 'docs' || !link.dataset.docsTarget || link.dataset.docsTarget === nextDocsTab
+      const isActiveView = matchesView && matchesDocsTarget
+      const isActiveDocsAction = activeView === 'docs' && link.dataset.docsTarget === nextDocsTab
+
       if (link.classList.contains('site-nav__link')) {
-        link.classList.toggle('site-nav__link--active', isActive)
+        link.classList.toggle('site-nav__link--active', isActiveView)
       }
       if (link.classList.contains('docs-action')) {
-        link.classList.toggle('docs-action--active', isActive)
+        link.classList.toggle('docs-action--active', isActiveDocsAction)
       }
-      link.setAttribute('aria-current', isActive ? 'page' : 'false')
+      link.setAttribute('aria-current', isActiveView ? 'page' : 'false')
     })
 
     panels.forEach((panel) => {
@@ -59,7 +102,7 @@ export function initSiteShell({
       panel.hidden = !isActive
     })
 
-    syncApiFrame(activeView)
+    renderDocsTab(nextDocsTab)
 
     if (syncHash) {
       windowRef.history.replaceState(null, '', `#${activeView}`)
@@ -75,18 +118,50 @@ export function initSiteShell({
 
     link.addEventListener('click', (event) => {
       event.preventDefault()
-      render(link.dataset.viewTarget)
+      render(link.dataset.viewTarget, {
+        docsTab: link.dataset.docsTarget || activeDocsTab,
+      })
+    })
+  })
+
+  docsTabs.forEach((tab) => {
+    if (!DOCS_TAB_NAMES.has(tab.dataset.docsTarget || '')) {
+      return
+    }
+
+    tab.addEventListener('click', () => {
+      if (activeView !== 'docs') {
+        render('docs', { docsTab: tab.dataset.docsTarget })
+        return
+      }
+
+      renderDocsTab(tab.dataset.docsTarget)
+
+      navLinks.forEach((link) => {
+        if (link.classList.contains('docs-action')) {
+          const isActive = link.dataset.docsTarget === activeDocsTab
+          link.classList.toggle('docs-action--active', isActive)
+        }
+      })
     })
   })
 
   windowRef.addEventListener('hashchange', () => {
-    render(getHashView(windowRef), { syncHash: false })
+    const nextState = resolveLocationState(windowRef)
+    render(nextState.view, {
+      syncHash: false,
+      docsTab: nextState.docsTab,
+    })
   })
 
-  render(activeView, { syncHash: false })
+  render(activeView, {
+    syncHash: false,
+    docsTab: activeDocsTab,
+  })
 
   return {
-    setActiveView: (viewName) => render(viewName),
+    setActiveView: (viewName, options = {}) => render(viewName, options),
     getActiveView: () => activeView,
+    getActiveDocsTab: () => activeDocsTab,
   }
 }

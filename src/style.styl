@@ -1,13 +1,18 @@
 :root
-  --page-bg #edf2ea
+  --page-bg #e9f1ee
   --panel-bg rgba(255, 255, 255, 0.86)
+  --panel-strong rgba(255, 255, 255, 0.94)
   --panel-border rgba(15, 23, 42, 0.08)
-  --ink #14213d
-  --muted #556277
+  --ink #122033
+  --muted #5d6b80
   --accent #0f766e
+  --accent-strong #115e59
   --accent-soft #d8f1ec
-  --hero-start #15304f
+  --hero-start #10253e
+  --hero-mid #1d4961
   --hero-end #27665c
+  --shadow-lg 0 24px 60px rgba(15, 23, 42, 0.14)
+  --shadow-md 0 18px 40px rgba(15, 23, 42, 0.08)
 
 html
   scroll-behavior smooth
@@ -15,8 +20,11 @@ html
 body
   margin 0
   font-family 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif
-  background radial-gradient(circle at top, #f7fbf6 0%, var(--page-bg) 48%, #e6ece6 100%)
+  background radial-gradient(circle at top, #f8fcfb 0%, var(--page-bg) 42%, #e4ece8 100%)
   color var(--ink)
+
+button, input, textarea
+  font inherit
 
 a
   color inherit
@@ -37,12 +45,12 @@ code
   gap 20px
   padding 18px 28px
   backdrop-filter blur(18px)
-  background rgba(237, 242, 234, 0.82)
+  background rgba(233, 241, 238, 0.78)
   border-bottom 1px solid rgba(20, 33, 61, 0.08)
 
 .site-brand
   font-size 26px
-  font-weight 700
+  font-weight 800
   letter-spacing 0.04em
   text-decoration none
 
@@ -58,12 +66,13 @@ code
   text-decoration none
   color var(--muted)
   border 1px solid transparent
-  transition background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease
+  transition background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease
 
 .site-nav__link:hover
   color var(--ink)
-  background rgba(255, 255, 255, 0.7)
+  background rgba(255, 255, 255, 0.72)
   border-color rgba(20, 33, 61, 0.08)
+  transform translateY(-1px)
 
 .site-nav__link--active
   color #fff
@@ -71,16 +80,41 @@ code
   border-color transparent
 
 .site-hero
-  padding 36px 28px 20px
+  padding 36px 28px 18px
 
 .site-hero__content
   max-width 1400px
   margin 0 auto
-  padding 28px
-  border-radius 24px
+  padding 38px
+  border-radius 32px
   color #f8fafc
-  background linear-gradient(135deg, var(--hero-start) 0%, #1f4962 48%, var(--hero-end) 100%)
-  box-shadow 0 24px 48px rgba(15, 23, 42, 0.18)
+  background linear-gradient(135deg, var(--hero-start) 0%, var(--hero-mid) 48%, var(--hero-end) 100%)
+  box-shadow 0 30px 64px rgba(15, 23, 42, 0.2)
+  overflow hidden
+  position relative
+
+.site-hero__content:before
+  content ''
+  position absolute
+  inset auto -120px -160px auto
+  width 320px
+  height 320px
+  border-radius 50%
+  background rgba(255, 255, 255, 0.08)
+  filter blur(8px)
+
+.hero-layout
+  position relative
+  z-index 1
+  display grid
+  grid-template-columns minmax(0, 1.45fr) minmax(320px, 440px)
+  gap 28px
+  align-items stretch
+
+.hero-copy
+  display flex
+  flex-direction column
+  justify-content center
 
 .site-eyebrow
   margin 0 0 12px
@@ -90,23 +124,45 @@ code
   text-transform uppercase
   color rgba(255, 255, 255, 0.72)
 
+.hero-badge-row
+  display flex
+  gap 10px
+  flex-wrap wrap
+  margin-bottom 14px
+
+.hero-badge
+  display inline-flex
+  align-items center
+  min-height 34px
+  padding 0 14px
+  border-radius 999px
+  background rgba(255, 255, 255, 0.12)
+  border 1px solid rgba(255, 255, 255, 0.16)
+  font-size 13px
+  font-weight 700
+
+.hero-badge--soft
+  background rgba(255, 255, 255, 0.08)
+  color rgba(255, 255, 255, 0.84)
+
 .site-title
   margin 0
-  font-size clamp(40px, 5vw, 72px)
-  line-height 0.95
+  max-width 860px
+  font-size clamp(42px, 5vw, 72px)
+  line-height 1.02
 
 .site-subtitle
-  max-width 720px
-  margin 16px 0 0
+  max-width 780px
+  margin 18px 0 0
   font-size 18px
-  line-height 1.7
+  line-height 1.82
   color rgba(255, 255, 255, 0.84)
 
 .site-chips
   display flex
   gap 12px
   flex-wrap wrap
-  margin-top 22px
+  margin-top 24px
 
 .site-chip
   padding 9px 14px
@@ -116,16 +172,151 @@ code
   font-size 13px
   color #f8fafc
 
+.hero-actions
+  display flex
+  gap 12px
+  flex-wrap wrap
+  margin-top 28px
+
+.hero-action
+  display inline-flex
+  align-items center
+  justify-content center
+  min-height 46px
+  padding 0 18px
+  border-radius 999px
+  text-decoration none
+  border 1px solid transparent
+  background #fff
+  color var(--hero-start)
+  font-weight 700
+  box-shadow 0 12px 28px rgba(9, 18, 33, 0.16)
+  transition transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease
+
+.hero-action:hover
+  transform translateY(-1px)
+  box-shadow 0 18px 32px rgba(9, 18, 33, 0.18)
+
+.hero-action--secondary
+  background rgba(255, 255, 255, 0.14)
+  color #fff
+  border-color rgba(255, 255, 255, 0.18)
+
+.hero-action--ghost
+  background transparent
+  color rgba(255, 255, 255, 0.9)
+  border-color rgba(255, 255, 255, 0.2)
+  box-shadow none
+
+.hero-preview
+  display grid
+  gap 16px
+
+.hero-panel
+  padding 22px
+  border-radius 24px
+  background rgba(255, 255, 255, 0.14)
+  border 1px solid rgba(255, 255, 255, 0.14)
+  box-shadow 0 18px 40px rgba(15, 23, 42, 0.12)
+  backdrop-filter blur(16px)
+
+.hero-panel--glass
+  background rgba(255, 255, 255, 0.08)
+
+.hero-panel__eyebrow
+  margin 0 0 14px
+  font-size 12px
+  font-weight 700
+  letter-spacing 0.14em
+  text-transform uppercase
+  color rgba(255, 255, 255, 0.72)
+
+.hero-stats
+  display grid
+  gap 12px
+
+.hero-stat
+  padding 14px 16px
+  border-radius 18px
+  background rgba(9, 18, 33, 0.16)
+
+.hero-stat strong
+  display block
+  margin-bottom 6px
+  font-size 16px
+
+.hero-stat span
+  color rgba(255, 255, 255, 0.78)
+  line-height 1.6
+
+.hero-points
+  margin 0
+  padding-left 18px
+  line-height 1.9
+  color rgba(255, 255, 255, 0.84)
+
 .site-main
   max-width 1400px
   margin 0 auto
-  padding 0 28px 36px
+  padding 0 28px 42px
 
 .site-view
   display none
 
 .site-view--active
   display block
+
+.anchor-strip
+  display flex
+  gap 10px
+  flex-wrap wrap
+  margin-bottom 18px
+
+.anchor-pill
+  display inline-flex
+  align-items center
+  min-height 38px
+  padding 0 14px
+  border-radius 999px
+  text-decoration none
+  color var(--accent-strong)
+  background rgba(255, 255, 255, 0.74)
+  border 1px solid rgba(15, 118, 110, 0.1)
+  box-shadow 0 8px 18px rgba(15, 23, 42, 0.04)
+
+.anchor-pill:hover
+  background rgba(255, 255, 255, 0.96)
+
+.marketing-summary
+  display grid
+  grid-template-columns repeat(4, minmax(0, 1fr))
+  gap 16px
+  margin-bottom 26px
+
+.summary-card
+  padding 22px
+  border-radius 24px
+  background var(--panel-strong)
+  border 1px solid var(--panel-border)
+  box-shadow var(--shadow-md)
+
+.summary-card__label
+  margin 0 0 10px
+  font-size 12px
+  letter-spacing 0.14em
+  font-weight 700
+  text-transform uppercase
+  color var(--accent)
+
+.summary-card__value
+  margin 0
+  font-size 28px
+  line-height 1.1
+
+.summary-card__text
+  margin 10px 0 0
+  color var(--muted)
+  line-height 1.8
 
 .site-view__layout
   display grid
@@ -153,26 +344,32 @@ code
 
 .workspace__title
   margin 0
-  font-size 32px
-  line-height 1.1
+  font-size 34px
+  line-height 1.12
 
 .workspace__description
   max-width 360px
   margin 0
   color var(--muted)
-  line-height 1.7
+  line-height 1.8
+
+.workspace__description--wide
+  max-width 760px
+
+.workspace--demo
+  margin-bottom 28px
 
 #demo-app
   display grid
-  grid-template-columns minmax(0, 1.1fr) minmax(320px, 0.9fr)
+  grid-template-columns minmax(0, 1.08fr) minmax(340px, 0.92fr)
   gap 20px
 
 .demo-pane
   min-width 0
   background var(--panel-bg)
   border 1px solid var(--panel-border)
-  border-radius 22px
-  box-shadow 0 18px 40px rgba(15, 23, 42, 0.08)
+  border-radius 24px
+  box-shadow var(--shadow-md)
   padding 20px
   box-sizing border-box
   backdrop-filter blur(16px)
@@ -181,6 +378,19 @@ code
   font-size 18px
   font-weight 700
   margin-bottom 16px
+
+.demo-pane--editor #editor-root
+  min-height 560px
+
+.demo-pane--side
+  display grid
+  gap 16px
+
+.demo-subpane
+  padding 2px 0
+
+.demo-subpane--preview
+  min-height 0
 
 .demo-pane__label
   display block
@@ -193,13 +403,12 @@ code
 
 .demo-markdown-input
   width 100%
-  min-height 180px
+  min-height 200px
   border 1px solid rgba(20, 33, 61, 0.14)
   border-radius 16px
   padding 14px 16px
   box-sizing border-box
   resize vertical
-  font inherit
   line-height 1.7
   background rgba(250, 252, 255, 0.96)
   color var(--ink)
@@ -208,7 +417,7 @@ code
   color #8a94a6
 
 .demo-preview
-  min-height 560px
+  min-height 320px
   line-height 1.75
   word-break break-word
   color var(--ink)
@@ -221,7 +430,23 @@ code
   margin 0 0 16px
 
 .demo-preview strong
-  color var(--accent)
+  font-weight 700
+
+.demo-preview u
+  text-decoration underline
+
+.demo-preview del
+  text-decoration line-through
+
+.demo-preview code
+  padding 2px 6px
+  border-radius 6px
+  background rgba(15, 23, 42, 0.08)
+  font-size 0.92em
+
+.demo-preview span[style*='background']
+  padding 0 2px
+  border-radius 4px
 
 .demo-preview--empty
   color #6b7280
@@ -238,9 +463,15 @@ code
 .docs-card
   background rgba(255, 255, 255, 0.9)
   border 1px solid rgba(20, 33, 61, 0.08)
-  border-radius 20px
+  border-radius 22px
   padding 20px
-  box-shadow 0 18px 40px rgba(15, 23, 42, 0.06)
+  box-shadow var(--shadow-md)
+
+.docs-card--accent
+  background linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(240, 249, 247, 0.96) 100%)
+
+.docs-card--full
+  grid-column 1 / -1
 
 .docs-card__eyebrow
   margin 0 0 8px
@@ -281,7 +512,7 @@ code
   color #fff
   text-decoration none
   border 1px solid transparent
-  transition transform 0.2s ease, opacity 0.2s ease
+  transition transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease
 
 .docs-action:hover
   transform translateY(-1px)
@@ -310,6 +541,9 @@ code
   line-height 1.9
   color var(--muted)
 
+.docs-list--tight
+  line-height 1.75
+
 .docs-links a
   color var(--accent)
   text-decoration none
@@ -317,9 +551,166 @@ code
 .docs-links a:hover
   text-decoration underline
 
+.marketing-section
+  margin-top 28px
+  padding 28px
+  border-radius 28px
+  background rgba(255, 255, 255, 0.72)
+  border 1px solid rgba(20, 33, 61, 0.06)
+  box-shadow var(--shadow-md)
+  backdrop-filter blur(14px)
+
+.marketing-section--contrast
+  background linear-gradient(180deg, rgba(255, 255, 255, 0.84) 0%, rgba(241, 248, 246, 0.84) 100%)
+
+.section-heading
+  display flex
+  justify-content space-between
+  align-items end
+  gap 16px
+  margin-bottom 18px
+
+.value-grid
+  display grid
+  grid-template-columns repeat(3, minmax(0, 1fr))
+  gap 16px
+
+.value-card
+  padding 22px
+  border-radius 22px
+  background rgba(255, 255, 255, 0.9)
+  border 1px solid rgba(20, 33, 61, 0.06)
+
+.value-card__title
+  margin 0
+  font-size 20px
+
+.value-card__text
+  margin 10px 0 0
+  color var(--muted)
+  line-height 1.8
+
+.feature-grid
+  display grid
+  grid-template-columns repeat(3, minmax(0, 1fr))
+  gap 16px
+
+.feature-card
+  padding 22px
+  border-radius 22px
+  background rgba(255, 255, 255, 0.88)
+  border 1px solid rgba(20, 33, 61, 0.06)
+
+.feature-card__tag
+  margin 0 0 12px
+  font-size 12px
+  font-weight 700
+  letter-spacing 0.14em
+  text-transform uppercase
+  color var(--accent)
+
+.feature-card__title
+  margin 0
+  font-size 20px
+
+.feature-card__text
+  margin 10px 0 0
+  color var(--muted)
+  line-height 1.8
+
+.workflow-grid
+  display grid
+  grid-template-columns repeat(4, minmax(0, 1fr))
+  gap 16px
+
+.workflow-grid--three
+  grid-template-columns repeat(3, minmax(0, 1fr))
+
+.workflow-card
+  padding 22px
+  border-radius 22px
+  background linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(239, 247, 245, 0.9) 100%)
+  border 1px solid rgba(15, 118, 110, 0.12)
+
+.workflow-card__step
+  display inline-flex
+  min-height 28px
+  align-items center
+  padding 0 10px
+  border-radius 999px
+  background rgba(15, 118, 110, 0.1)
+  color var(--accent-strong)
+  font-size 12px
+  font-weight 700
+  letter-spacing 0.08em
+  text-transform uppercase
+
+.workflow-card__title
+  margin 14px 0 0
+  font-size 19px
+
+.workflow-card__text
+  margin 10px 0 0
+  color var(--muted)
+  line-height 1.8
+
+.scenario-grid
+  display grid
+  grid-template-columns repeat(3, minmax(0, 1fr))
+  gap 16px
+
+.scenario-card, .ecosystem-card
+  padding 22px
+  border-radius 22px
+  background rgba(255, 255, 255, 0.88)
+  border 1px solid rgba(20, 33, 61, 0.06)
+
+.scenario-card__title
+  margin 0
+  font-size 20px
+
+.scenario-card__text
+  margin 10px 0 0
+  color var(--muted)
+  line-height 1.8
+
+.ecosystem-grid
+  display grid
+  grid-template-columns repeat(2, minmax(0, 1fr))
+  gap 16px
+
+.cta-banner
+  margin-top 28px
+  display flex
+  align-items center
+  justify-content space-between
+  gap 20px
+  padding 30px
+  border-radius 30px
+  color #f8fafc
+  background linear-gradient(135deg, var(--hero-start) 0%, var(--hero-mid) 48%, var(--hero-end) 100%)
+  box-shadow 0 24px 48px rgba(15, 23, 42, 0.18)
+
+.cta-banner .workspace__eyebrow
+  color rgba(255, 255, 255, 0.72)
+
+.cta-banner .workspace__description
+  color rgba(255, 255, 255, 0.82)
+
+.cta-banner__actions
+  display flex
+  gap 12px
+  flex-wrap wrap
+
 .docs-page, .api-page
   display grid
   gap 20px
+
+.docs-subview
+  display none
+
+.docs-subview--active
+  display block
 
 .docs-page__header
   display flex
@@ -327,7 +718,42 @@ code
   align-items end
   gap 16px
 
+.docs-tabs
+  display inline-flex
+  align-items center
+  gap 10px
+  padding 8px
+  width fit-content
+  border-radius 999px
+  background rgba(255, 255, 255, 0.88)
+  border 1px solid rgba(20, 33, 61, 0.08)
+  box-shadow var(--shadow-md)
+
+.docs-tab
+  min-height 42px
+  padding 0 18px
+  border 0
+  border-radius 999px
+  background transparent
+  color var(--muted)
+  font-weight 600
+  cursor pointer
+  transition background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease
+
+.docs-tab:hover
+  color var(--ink)
+
+.docs-tab--active
+  color #fff
+  background linear-gradient(135deg, var(--hero-start), var(--hero-end))
+  box-shadow 0 10px 22px rgba(15, 118, 110, 0.18)
+
 .docs-page__grid
+  display grid
+  grid-template-columns repeat(2, minmax(0, 1fr))
+  gap 18px
+
+.api-page__intro
   display grid
   grid-template-columns repeat(2, minmax(0, 1fr))
   gap 18px
@@ -336,8 +762,8 @@ code
   min-height 920px
   background rgba(255, 255, 255, 0.92)
   border 1px solid rgba(20, 33, 61, 0.08)
-  border-radius 22px
-  box-shadow 0 18px 40px rgba(15, 23, 42, 0.08)
+  border-radius 24px
+  box-shadow var(--shadow-md)
   padding 14px
 
 .api-page__frame
@@ -346,6 +772,32 @@ code
   border 0
   border-radius 16px
   background #fff
+
+.site-footer
+  max-width 1400px
+  margin 0 auto
+  padding 0 28px 36px
+  display flex
+  align-items center
+  justify-content space-between
+  gap 18px
+  color var(--muted)
+
+.site-footer strong
+  display inline-block
+  margin-right 12px
+  color var(--ink)
+
+.site-footer__links
+  display flex
+  flex-wrap wrap
+  gap 14px
+
+.site-footer__links a
+  text-decoration none
+
+.site-footer__links a:hover
+  color var(--accent)
 
 #editor-content:focus, .custom-input:focus, .demo-markdown-input:focus
   outline none
@@ -407,6 +859,12 @@ code
     vertical-align middle
 
 @media (max-width: 1200px)
+  .hero-layout
+    grid-template-columns 1fr
+  .marketing-summary
+    grid-template-columns repeat(2, minmax(0, 1fr))
+  .value-grid
+    grid-template-columns 1fr
   .site-view__layout
     grid-template-columns 1fr
   .docs-panel
@@ -417,6 +875,28 @@ code
     display block
   .docs-page__header
     display block
+  .section-heading
+    display block
+  .feature-grid
+    grid-template-columns repeat(2, minmax(0, 1fr))
+  .workflow-grid
+    grid-template-columns repeat(2, minmax(0, 1fr))
+  .workflow-grid--three
+    grid-template-columns 1fr
+  .scenario-grid
+    grid-template-columns 1fr
+  .ecosystem-grid
+    grid-template-columns 1fr
+  .api-page__intro
+    grid-template-columns 1fr
+  .cta-banner
+    display block
+  .cta-banner__actions
+    margin-top 16px
+  .docs-tabs
+    width 100%
+    box-sizing border-box
+    flex-wrap wrap
   .workspace__description
     max-width none
     margin-top 10px
@@ -434,11 +914,31 @@ code
     padding 20px 18px 14px
   .site-hero__content
     padding 22px
+    border-radius 24px
   .site-main
     padding 0 18px 24px
   .site-title
     font-size 40px
+  .hero-badge-row
+    display block
+  .hero-badge
+    margin 0 0 8px
+  .marketing-summary
+    grid-template-columns 1fr
+  .feature-grid
+    grid-template-columns 1fr
+  .workflow-grid
+    grid-template-columns 1fr
   .demo-pane
     padding 16px
+  .marketing-section
+    padding 22px
+  .cta-banner
+    padding 22px
   .api-page__frame-shell
     padding 10px
+  .site-footer
+    padding 0 18px 28px
+    display block
+  .site-footer__links
+    margin-top 12px

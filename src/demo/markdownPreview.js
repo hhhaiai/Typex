@@ -7,6 +7,10 @@ function escapeHtml(text) {
     .replace(/'/g, '&#39;')
 }
 
+function escapeAttribute(value) {
+  return escapeHtml(value).replace(/\n/g, ' ')
+}
+
 function renderInlineMarkdown(text) {
   const escapedText = escapeHtml(text)
   return escapedText.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
@@ -26,19 +30,60 @@ function renderMarkdown(markdown) {
 
 function wrapWithMarks(text, marks = []) {
   return marks.reduce((content, mark) => {
-    if (mark?.type === 'bold') {
-      return `<strong>${content}</strong>`
+    if (!mark || typeof mark !== 'object') {
+      return content
     }
+
+    if (mark.type === 'bold') return `<strong>${content}</strong>`
+    if (mark.type === 'underline') return `<u>${content}</u>`
+    if (mark.type === 'strike') return `<del>${content}</del>`
+    if (mark.type === 'code') return `<code>${content}</code>`
+    if (mark.type === 'sub') return `<sub>${content}</sub>`
+    if (mark.type === 'sup') return `<sup>${content}</sup>`
+    if (mark.type === 'color') return `<span style="color: ${escapeAttribute(mark.attrs?.value || '')};">${content}</span>`
+    if (mark.type === 'background') return `<span style="background: ${escapeAttribute(mark.attrs?.value || '')};">${content}</span>`
+    if (mark.type === 'font_size') return `<span style="font-size: ${escapeAttribute(mark.attrs?.value || '')};">${content}</span>`
+
     return content
   }, text)
 }
 
-function renderLegacyTextNode(node) {
-  const text = escapeHtml(node.data || '')
-  if (node.formats?.bold) {
-    return `<strong>${text}</strong>`
+function applyLegacyTextFormats(text, formats = {}) {
+  let content = escapeHtml(text)
+
+  if (formats.color) {
+    content = `<span style="color: ${escapeAttribute(formats.color)};">${content}</span>`
   }
-  return text
+  if (formats.background) {
+    content = `<span style="background: ${escapeAttribute(formats.background)};">${content}</span>`
+  }
+  if (formats.fontSize) {
+    content = `<span style="font-size: ${escapeAttribute(formats.fontSize)};">${content}</span>`
+  }
+  if (formats.bold) {
+    content = `<strong>${content}</strong>`
+  }
+  if (formats.underline) {
+    content = `<u>${content}</u>`
+  }
+  if (formats.deleteline) {
+    content = `<del>${content}</del>`
+  }
+  if (formats.sup) {
+    content = `<sup>${content}</sup>`
+  }
+  if (formats.sub) {
+    content = `<sub>${content}</sub>`
+  }
+  if (formats.code) {
+    content = `<code>${content}</code>`
+  }
+
+  return content
+}
+
+function renderLegacyTextNode(node) {
+  return applyLegacyTextFormats(node.data || '', node.formats || {})
 }
 
 function renderLegacyBlockNode(node) {
@@ -54,7 +99,8 @@ function renderLegacyBlockNode(node) {
   }).join('')
 
   if (node.formats?.heading || node.formats?.header) {
-    return `<h1>${content}</h1>`
+    const level = Math.min(Math.max(Number(node.formats?.heading || node.formats?.header) || 1, 1), 6)
+    return `<h${level}>${content}</h${level}>`
   }
 
   return `<p>${content}</p>`

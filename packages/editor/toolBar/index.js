@@ -24,11 +24,11 @@ export default class ToolBar extends Component {
     })
   }
 
-  notice (commonKeyValue) {
+  notice(commonKeyValue) {
     this.toolBarItemInses.forEach((item) => item.onNotice(commonKeyValue))
   }
 
-  render () {
+  render() {
     const { tools } = this.props
     return (
       <div class='editor-tool-bar'>
@@ -47,7 +47,7 @@ export default class ToolBar extends Component {
     this.props.onCommand(name, ...args)
   }
 }
-// // 工具栏-元素
+
 class ToolBarItem extends Component {
   constructor(props) {
     super(props)
@@ -57,19 +57,21 @@ class ToolBarItem extends Component {
     this.barItemRef = createRef()
   }
 
-  onNotice (commonKeyValue) {
+  onNotice(commonKeyValue) {
     if (commonKeyValue[this.props.name] !== this.state.currValue) {
       this.setState({
         currValue: commonKeyValue[this.props.name],
       })
     }
   }
-  getStyleColor () {
+
+  getStyleColor() {
     if (!this.state.currValue) return 'rgb(227 227 227);'
     if (this.props.name === 'color') return 'rgb(227 227 227);'
     return 'rgb(42 201 249)'
   }
-  render () {
+
+  render() {
     return (
       <div
         class='editor-tool-bar-item'
@@ -81,12 +83,13 @@ class ToolBarItem extends Component {
           <use xlink:href={this.props.icon}></use>
         </svg>
         {
-          this.props.name === 'color' ? <span class="color-line" style={`background:${this.state.currValue ? this.state.currValue : '#000'}`}></span> : ''
+          this.props.name === 'color'
+            ? <span class='color-line' style={`background:${this.state.currValue ? this.state.currValue : '#000'}`}></span>
+            : ''
         }
         {
           this.props.showDialog && this.state.dialogVisiable
-            ?
-            <div style='background:#efefef;position:absolute;top:35px;z-index:1'>
+            ? <div class='editor-tool-bar-dialog'>
               <DialogContent value={this.state.currValue || '#000'} onOk={this.onOk} name={this.props.name}></DialogContent>
             </div>
             : ''
@@ -99,17 +102,20 @@ class ToolBarItem extends Component {
     this.toggle()
     this.emitComand(val)
   }
+
   outClickHandle = (e) => {
     if (this.barItemRef.current.contains(e.target)) return
     this.setState({ dialogVisiable: false })
     document.removeEventListener('click', this.outClickHandle)
   }
-  toggle () {
+
+  toggle() {
     if (!this.state.dialogVisiable) {
       document.addEventListener('click', this.outClickHandle)
     }
     this.setState({ dialogVisiable: !this.state.dialogVisiable })
   }
+
   emitComand = (val) => {
     this.props.editor.command(this.props.name, val)
     this.props.editor.focus()
@@ -128,8 +134,7 @@ class ToolBarItem extends Component {
   }
 }
 
-
-function findCommonKeyValuePairs (lists) {
+function findCommonKeyValuePairs(lists) {
   if (lists.length === 0) return {}
   const commonPairs = {}
   for (const key in lists[0]) {

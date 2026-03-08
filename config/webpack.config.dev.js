@@ -9,7 +9,7 @@ const devConfig = merge(baseConfig, {
   devtool: 'source-map',
   devServer: {
     static: {
-      directory: path.join(__dirname, '../dist'),
+      directory: path.join(__dirname, '../deploy'),
     },
     client: {
       logging: 'error',
